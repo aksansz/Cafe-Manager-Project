@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Cafe_Project.Models.Table>
+@{
+    ViewData["Title"] = "Tables";
+}
+<h1>@ViewData["Title"]</h1>
+<style>
+    .btn, .btn-lg {
+        padding-top: 75px;
+        height: 210px;
+    }
+</style>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        if (item.odendi == "Paid")
+        {
+            @Html.ActionLink("Table " + item.tableNumber, "EditOrder", new { id = item.tableNumber }, new { @class = "col-3 btn btn-outline-warning btn-lg" })
+        }
+        else
+        {
+            @Html.ActionLink("Table " + item.tableNumber, "EditOrder", new { id = item.tableNumber }, new { @class = "col-3 btn btn-outline-info btn-lg" })
+        }
+
+    }
+</div>

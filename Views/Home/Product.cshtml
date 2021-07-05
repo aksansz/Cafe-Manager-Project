@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Cafe_Project.Models.Product>
+
+@{
+    ViewData["Title"] = "Product";
+}
+
+<h1>Products</h1>
+<p>
+    <a asp-action="InsertProduct">Create New Product</a>
+</p>
+@{
+    var productTypes = Cafe_Project.Controllers.HomeController.GetProductTypes();
+    @*@Html.DropDownListFor(n => n.,
+        new SelectList(productTypes, "ColorId", "Name"))*@
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Product Types
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            @Html.ActionLink("All Products", "Product",new object{ }, new { @class = "dropdown-item" })
+            @foreach (var item in productTypes)
+            {
+                @Html.ActionLink(item.typeName, "Product", new { ProductType = item.typeId }, new { @class = "dropdown-item" })
+
+            }
+
+        </div>
+    </div>
+
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.name</td>
+                <td>@item.price ₺</td>
+                <td>
+                    @productTypes.Where(x => x.typeId == item.productTypeId).FirstOrDefault().typeName
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditProduct", new { id = item.id }) |
+                    @Html.ActionLink("Delete", "DeleteProduct", new { id = item.id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

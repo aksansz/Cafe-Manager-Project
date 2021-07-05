@@ -1,0 +1,63 @@
+﻿@model Cafe_Project.Models.Table
+
+@{
+    ViewData["Title"] = "EditOrder";
+}
+
+<h1>Orders of Table @Model.tableNumber</h1>
+
+<p>
+    @Html.ActionLink("Create New Order", "CreateOrder", new { tableId = Model.tableNumber })
+</p>
+<table class="table">
+    @{
+        Model.productList = Cafe_Project.Controllers.HomeController.GetOrders(Model.tableNumber);
+        var product = new Product();
+    }
+    <thead>
+        <tr>
+            <th>
+               Product Name
+            </th>
+            <th>
+                Unit Price
+            </th>
+            <th>
+                Quantity
+            </th>
+            @*<th></th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.productList)
+        {
+            <tr>
+                <td>
+                    @item.name
+                </td>
+                <td>
+                    @item.price ₺
+                </td>
+                <td>
+                    @item.quantity
+                </td>
+                @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div style="float:right;">
+
+    Total Price: @ViewBag.Total ₺
+    <br><br>
+    @Html.ActionLink("Payment", "Payment", new { id = Model.tableNumber }, new { @class = "btn btn-primary btn-lg" })
+</div>
+
+
+
+
